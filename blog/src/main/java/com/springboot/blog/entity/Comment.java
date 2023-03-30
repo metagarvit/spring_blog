@@ -15,6 +15,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -32,6 +33,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "comments")
+@Builder
 public class Comment   extends Auditable {
 	
 	@Id

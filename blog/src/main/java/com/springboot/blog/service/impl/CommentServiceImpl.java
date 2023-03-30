@@ -29,10 +29,9 @@ public class CommentServiceImpl implements CommentService {
 	@Autowired
 	private CommentRepository commentRepository;
 
-
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private PostRepository postRepository;
 
@@ -41,12 +40,11 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public CommentDto createComment(long postId, CommentDto commentDto) {
-		
+
 		// getting current user
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		User user = userRepository.findByUsername(username).orElseThrow(
-				() -> new ResourceNotFoundException("User", "id", String.valueOf(username)));
-		
+		User user = userRepository.findByUsername(username)
+				.orElseThrow(() -> new ResourceNotFoundException("User", "id", String.valueOf(username)));
 
 		Comment comment = mapToEntity(commentDto);
 
@@ -70,6 +68,7 @@ public class CommentServiceImpl implements CommentService {
 	 * @return
 	 */
 	private CommentDto mapToDto(Comment comment) {
+		mapper  = new ModelMapper();
 		CommentDto commentDto = mapper.map(comment, CommentDto.class);
 		return commentDto;
 	}
@@ -81,6 +80,7 @@ public class CommentServiceImpl implements CommentService {
 	 * @return
 	 */
 	private Comment mapToEntity(CommentDto commentRequest) {
+		mapper  = new ModelMapper();
 		Comment comment = mapper.map(commentRequest, Comment.class);
 
 		return comment;
@@ -111,6 +111,7 @@ public class CommentServiceImpl implements CommentService {
 		Comment comment = commentRepository.findById(commentId)
 				.orElseThrow(() -> new ResourceNotFoundException("Comment", "id", String.valueOf(commentId)));
 
+		
 		if (!comment.getPost().getId().equals(post.getId())) {
 			throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Comment does not belong to post");
 		}
@@ -121,7 +122,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public CommentDto updateCommentById(long postId, long commentId, CommentDto commentRequest) {
 
-//retrive post by id
+		//retrive post by id
 		Post post = postRepository.findById(postId)
 				.orElseThrow(() -> new ResourceNotFoundException("Post", "id", String.valueOf(postId)));
 
@@ -133,7 +134,7 @@ public class CommentServiceImpl implements CommentService {
 		if (!comment.getPost().getId().equals(post.getId())) {
 			throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Comment does not belong to post");
 		}
-		
+
 		comment.setBody(commentRequest.getBody());
 
 		Comment updatedComment = commentRepository.save(comment);
@@ -149,7 +150,6 @@ public class CommentServiceImpl implements CommentService {
 				.orElseThrow(() -> new ResourceNotFoundException("Post", "id", String.valueOf(postId)));
 
 		// retrive comment by id
-
 		Comment comment = commentRepository.findById(commentId)
 				.orElseThrow(() -> new ResourceNotFoundException("Comment", "id", String.valueOf(commentId)));
 

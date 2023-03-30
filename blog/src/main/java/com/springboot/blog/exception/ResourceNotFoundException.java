@@ -33,13 +33,7 @@ public class ResourceNotFoundException extends RuntimeException {
 		this.fieldValue = fieldValue;
 	}
 
-	/**
-	 * 
-	 */
-	public ResourceNotFoundException() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	
 
 	
 

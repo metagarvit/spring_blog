@@ -16,7 +16,7 @@ import com.springboot.blog.payload.SelfPostDto;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 	
-	List<Post> findByCategoryId(Long categoryId);
+	List<Post> findByCategoryId(Long categoryId);	
 	
 	List<Post> findByCreatedBy(String username);
 

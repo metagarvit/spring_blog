@@ -44,6 +44,13 @@ public class PostServiceImpl implements PostService {
 	@Autowired
 	private ModelMapper mapper;
 
+/**
+ * Try to pass modelMapper in constructor
+ */
+	public PostServiceImpl() {
+		mapper = new ModelMapper();
+	}
+
 	@Override
 	public PostDto createPost(PostDto postDto) {
 
@@ -51,14 +58,15 @@ public class PostServiceImpl implements PostService {
 				() -> new ResourceNotFoundException("Category", "id", String.valueOf(postDto.getCategoryId())));
 
 		// getting current user
-				String username = SecurityContextHolder.getContext().getAuthentication().getName();
-				User user = userRepository.findByUsername(username).orElseThrow(
-						() -> new ResourceNotFoundException("User", "id", String.valueOf(username)));;
-				
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByUsername(username)
+				.orElseThrow(() -> new ResourceNotFoundException("User", "id", String.valueOf(username)));
+		;
+
 		// convert Dto to entity
 		Post post = mapToEntity(postDto);
-		post.setCategory(category);
 		post.setUserProfile(user.getProfileImage());
+		post.setCategory(category);
 		Post newPost = postRepository.save(post);
 
 		// convert entity to dto
@@ -68,9 +76,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostDto> getAlPost() {
+	public List<PostDto> getAllPost() {
 		List<Post> posts = postRepository.findAll();
-
 		return posts.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
 	}
 
@@ -81,7 +88,7 @@ public class PostServiceImpl implements PostService {
 	 * @return
 	 */
 	private PostDto mapToDto(Post post) {
-
+		mapper = new ModelMapper();
 		PostDto postDto = mapper.map(post, PostDto.class);
 		return postDto;
 
@@ -94,7 +101,7 @@ public class PostServiceImpl implements PostService {
 	 * @return
 	 */
 	private SelfPostDto mapToSelfDto(Post post) {
-
+		mapper = new ModelMapper();
 		SelfPostDto postDto = mapper.map(post, SelfPostDto.class);
 		return postDto;
 
@@ -129,7 +136,8 @@ public class PostServiceImpl implements PostService {
 	 */
 	private Post mapToEntity(PostDto postDto) {
 		Post post = mapper.map(postDto, Post.class);
-
+		post = Post.builder().id(postDto.getId()).title(postDto.getTitle()).description(postDto.getDescription())
+				.image(postDto.getImage()).build();
 		return post;
 
 	}
@@ -162,7 +170,6 @@ public class PostServiceImpl implements PostService {
 		post.setImage(postDto.getImage());
 		post.setCategory(category);
 		// Updating post
-
 		Post updatePost = postRepository.save(post);
 		return mapToDto(updatePost);
 	}
@@ -186,15 +193,15 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostResponse getAlPost(int pageNo, int pageSize, String sortBy, String sortDir) {
+	public PostResponse getAllPost(int pageNo, int pageSize, String sortBy, String sortDir) {
 
 		// Create sort object
-		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-				: Sort.by(sortBy).descending();
+//		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+//				: Sort.by(sortBy).descending();
 
 		// Create pageable instance
 //		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		//Sort by descending
+		// Sort by descending
 		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
 
 		Page<Post> posts = postRepository.findAll(pageable);

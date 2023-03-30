@@ -128,7 +128,7 @@ String fileName =  (  "" + System.currentTimeMillis() + file.getOriginalFilename
 
 			,
 			@RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir) {
-		return postService.getAlPost(pageNo, pagesize, sortBy, sortDir);
+		return postService.getAllPost(pageNo, pagesize, sortBy, sortDir);
 	}
 
 	/**

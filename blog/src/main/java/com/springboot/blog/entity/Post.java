@@ -20,10 +20,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter 
 @Setter
@@ -31,6 +33,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "posts")
+@Builder
 public class Post extends Auditable {
 
 	@Id
@@ -41,7 +44,7 @@ public class Post extends Auditable {
 	private String title;
 	
 	@Lob
-	@Column(name = "description", nullable = false)
+	@Column(name = "description", nullable = false , length = 5000)
 	private String description;
 	
 	

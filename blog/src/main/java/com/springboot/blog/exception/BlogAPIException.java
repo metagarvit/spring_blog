@@ -29,16 +29,7 @@ public class BlogAPIException  extends RuntimeException {
 		this.status = status;
 		this.message = message;
 	}
-	/**
-	 * @param message
-	 * @param status
-	 * @param message2
-	 */
-	public BlogAPIException(String message, HttpStatus status, String message2) {
-		super(message);
-		this.status = status;
-		message = message2;
-	}
+	
 
 	
 	

@@ -50,7 +50,7 @@ public interface PostService {
 	 * Get all post
 	 * @return
 	 */
-	public List<PostDto> getAlPost();
+	public List<PostDto> getAllPost();
 	
 	
 	
@@ -62,7 +62,7 @@ public interface PostService {
 	 * @param sortDir
 	 * @return
 	 */
-	public PostResponse getAlPost(int pageNo , int pageSize,  String sortBy , String sortDir);
+	public PostResponse getAllPost(int pageNo , int pageSize,  String sortBy , String sortDir);
 	
 	
 	/**

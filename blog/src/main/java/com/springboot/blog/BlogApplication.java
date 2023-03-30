@@ -13,22 +13,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class BlogApplication {
-	
+
 	@Bean
-	public ModelMapper modelMapper() {
+	ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(BlogApplication.class, args);
 	}
-	
+
 	@Bean
 	public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-	    return http.getSharedObject(AuthenticationManagerBuilder.class)
-	            .build();
+		return http.getSharedObject(AuthenticationManagerBuilder.class).build();
 	}
-	
-	
 
 }

@@ -1,4 +1,4 @@
-package com.springboot.blog.service.impl;
+package com.springboot.blog.utils;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -20,7 +20,6 @@ import com.springboot.blog.exception.FileNotFoundException;
 import com.springboot.blog.exception.FileStorageException;
 import com.springboot.blog.properties.FileUploadProperties;
 import com.springboot.blog.service.FileSytemStorageService;
-import com.springboot.blog.utils.AppConstants;
 
 import jakarta.annotation.PostConstruct;
 
